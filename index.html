@@ -12,9 +12,9 @@
 </head>
 <body>
 
-  <h2>Caută CNP</h2>
+  <h2>Verificare acces client</h2>
   <input type="text" id="cnpInput" placeholder="Introdu CNP-ul">
-  <button onclick="verificaCNP()">Caută</button>
+  <button onclick="verificaCNP()">Verifică</button>
   <div id="result"></div>
 
   <script>
@@ -38,11 +38,11 @@
       }
 
       if (cnpList.includes(input)) {
-        result.textContent = "✅ Clientul se regăsește în listă.";
-        result.style.color = "green";
-      } else {
-        result.textContent = "❌ Clientul nu se regăsește în listă.";
+        result.textContent = "❌ Clientul NU are voie să intre în sală.";
         result.style.color = "red";
+      } else {
+        result.textContent = "✅ Clientul poate intra în sală.";
+        result.style.color = "green";
       }
     }
   </script>
