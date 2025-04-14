@@ -3,18 +3,74 @@
 <html lang="ro">
 <head>
   <meta charset="UTF-8">
-  <title>Verificare CNP</title>
+  <title>Verificare acces client</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    input, button { padding: 10px; margin: 5px 0; width: 300px; }
-    #result { margin-top: 15px; font-weight: bold; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #cnpInput {
+      padding: 10px;
+      font-size: 18px;
+      width: 300px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .numpad {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .key {
+      padding: 15px;
+      font-size: 20px;
+      text-align: center;
+      cursor: pointer;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      user-select: none;
+    }
+    .key:active {
+      background-color: #d0d0d0;
+    }
+    #clear, #backspace {
+      background-color: #ffdede;
+    }
+    #result {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-  <h2>Verificare acces client</h2>
-  <input type="text" id="cnpInput" placeholder="Introdu CNP-ul">
-  <button onclick="verificaCNP()">Verifică</button>
+  <h2>Verificare acces client (CNP)</h2>
+  <input type="text" id="cnpInput" maxlength="13" placeholder="Introdu CNP-ul aici">
+
+  <div class="numpad">
+    <div class="key" onclick="addDigit('1')">1</div>
+    <div class="key" onclick="addDigit('2')">2</div>
+    <div class="key" onclick="addDigit('3')">3</div>
+    <div class="key" onclick="addDigit('4')">4</div>
+    <div class="key" onclick="addDigit('5')">5</div>
+    <div class="key" onclick="addDigit('6')">6</div>
+    <div class="key" onclick="addDigit('7')">7</div>
+    <div class="key" onclick="addDigit('8')">8</div>
+    <div class="key" onclick="addDigit('9')">9</div>
+    <div class="key" id="clear" onclick="clearInput()">C</div>
+    <div class="key" onclick="addDigit('0')">0</div>
+    <div class="key" id="backspace" onclick="backspace()">⌫</div>
+  </div>
+
+  <button onclick="verificaCNP()">Verifică CNP</button>
   <div id="result"></div>
 
   <script>
@@ -27,12 +83,35 @@
         cnpList = data;
       });
 
+    function addDigit(digit) {
+      const input = document.getElementById("cnpInput");
+      if (input.value.length < 13) {
+        input.value += digit;
+      }
+    }
+
+    function clearInput() {
+      document.getElementById("cnpInput").value = "";
+      document.getElementById("result").textContent = "";
+    }
+
+    function backspace() {
+      const input = document.getElementById("cnpInput");
+      input.value = input.value.slice(0, -1);
+    }
+
     function verificaCNP() {
       const input = document.getElementById("cnpInput").value.trim();
       const result = document.getElementById("result");
 
       if (!input.match(/^\d{13}$/)) {
         result.textContent = "CNP invalid (trebuie să conțină 13 cifre).";
+        result.style.color = "orange";
+        return;
+      }
+
+      if (cnpList.length === 0) {
+        result.textContent = "Lista de CNP-uri nu este încă încărcată.";
         result.style.color = "orange";
         return;
       }
