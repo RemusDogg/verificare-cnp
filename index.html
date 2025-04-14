@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Verificare CNP</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { padding: 10px; margin: 5px 0; width: 300px; }
+    #result { margin-top: 15px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h2>Caută CNP</h2>
+  <input type="text" id="cnpInput" placeholder="Introdu CNP-ul">
+  <button onclick="verificaCNP()">Caută</button>
+  <div id="result"></div>
+
+  <script>
+    let cnpList = [];
+
+    // Încarcă fișierul JSON
+    fetch('cnp_list.json')
+      .then(response => response.json())
+      .then(data => {
+        cnpList = data;
+      });
+
+    function verificaCNP() {
+      const input = document.getElementById("cnpInput").value.trim();
+      const result = document.getElementById("result");
+
+      if (!input.match(/^\d{13}$/)) {
+        result.textContent = "CNP invalid (trebuie să conțină 13 cifre).";
+        result.style.color = "orange";
+        return;
+      }
+
+      if (cnpList.includes(input)) {
+        result.textContent = "✅ Clientul se regăsește în listă.";
+        result.style.color = "green";
+      } else {
+        result.textContent = "❌ Clientul nu se regăsește în listă.";
+        result.style.color = "red";
+      }
+    }
+  </script>
+
+</body>
+</html>
