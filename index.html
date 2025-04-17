@@ -11,14 +11,28 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      overflow: hidden;
     }
     img {
       max-width: 90%;
       max-height: 90%;
     }
+    .overlay-message {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 8px 12px;
+      border-radius: 5px;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
+  <div class="overlay-message">Această pagină este temporar dezactivată!</div>
   <img src="loader.svg" alt="Acces restricționat">
 </body>
 </html>
